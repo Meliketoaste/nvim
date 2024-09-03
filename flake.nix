@@ -147,6 +147,7 @@
           todo-comments-nvim
           mini-nvim
           nvim-treesitter.withAllGrammars
+          markdown-preview-nvim
           # This is for if you only want some of the grammars
           # (nvim-treesitter.withPlugins (
           #   plugins: with plugins; [
