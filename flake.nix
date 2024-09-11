@@ -110,8 +110,13 @@
           stdenv.cc.cc
           nix-doc
           lua-language-server
+          typescript-language-server
+
+          nodePackages."@tailwindcss/language-server"
           nixd
           stylua
+          nodePackages.prettier
+          prettierd
         ];
         kickstart-debug = [
           delve

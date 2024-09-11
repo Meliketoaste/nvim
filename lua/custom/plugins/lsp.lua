@@ -1,3 +1,4 @@
+local prettier = { 'prettierd', 'prettier', stop_after_first = true }
 return {
 
   {
@@ -220,6 +221,8 @@ return {
           },
         },
       }
+      servers.tailwindcss = {}
+      servers.html = {}
       servers.lua_ls = {
 
         server_capabilities = {
@@ -319,6 +322,10 @@ return {
         }
       end,
       formatters_by_ft = {
+        javascript = prettier,
+        typescript = prettier,
+        javascriptreact = prettier,
+        typescriptreact = prettier,
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
@@ -327,6 +334,30 @@ return {
         -- is found.
         -- javascript = { { "prettierd", "prettier" } },
       },
+      formatters = {
+        -- Dealing with old version of prettierd that doesn't support range formatting
+        prettierd = {
+          ---@diagnostic disable-next-line: assign-type-mismatch
+          range_args = false,
+        },
+      },
     },
+  },
+  {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {},
+  },
+  {
+
+    'windwp/nvim-ts-autotag',
+    config = function()
+      require('nvim-ts-autotag').setup {
+        opts = {
+          enable_close = false,
+          enable_close_on_slash = true,
+        },
+      }
+    end,
   },
 }

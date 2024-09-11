@@ -1,6 +1,6 @@
 return {
   {
-    "folke/tokyonight.nvim",
+    'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
     config = function()
@@ -9,9 +9,9 @@ return {
     opts = {},
   },
   {
-    "rebelot/kanagawa.nvim",
+    'rebelot/kanagawa.nvim',
     config = function()
-      require("kanagawa").setup {
+      require('kanagawa').setup {
 
         overrides = function(colors)
           local theme = colors.theme
@@ -20,6 +20,11 @@ return {
             String = { fg = colors.palette.carpYellow, italic = true },
             -- theme colors will update dynamically when you change theme!
             SomePluginHl = { fg = colors.theme.syn.type, bold = true },
+
+            ['@markup.heading.1.markdown'] = { fg = colors.palette.dragonPink },
+            ['@markup.heading.2.markdown'] = { fg = colors.palette.lightBlue },
+            ['@markup.heading.3.markdown'] = { fg = colors.palette.springGreen },
+            ['@markup.heading.4.markdown'] = { fg = colors.palette.dragonOrange2 },
             --TelescopeTitle = { fg = theme.ui.special, bold = true },
             --TelescopePromptNormal = { bg = theme.ui.bg_p1 },
             --TelescopePromptBorder = { fg = theme.ui.bg_p1, bg = theme.ui.bg_p1 },
@@ -34,36 +39,38 @@ return {
           }
         end,
       }
-      vim.cmd.colorscheme "kanagawa-dragon"
+
+      -- Change color of headings
+      vim.cmd.colorscheme 'kanagawa-dragon'
     end,
   },
-  { "navarasu/onedark.nvim" },
-  { "rose-pine/neovim", name = "rose-pine" },
+  { 'navarasu/onedark.nvim' },
+  { 'rose-pine/neovim', name = 'rose-pine' },
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    'catppuccin/nvim',
+    name = 'catppuccin',
 
     config = function()
-      require("catppuccin").setup {
-        background = { light = "latte", dark = "mocha" }, -- latte, frappe, macchiato, mocha
+      require('catppuccin').setup {
+        background = { light = 'latte', dark = 'mocha' }, -- latte, frappe, macchiato, mocha
         dim_inactive = {
           enabled = false,
           -- Dim inactive splits/windows/buffers.
           -- NOT recommended if you use old palette (a.k.a., mocha).
-          shade = "dark",
+          shade = 'dark',
           percentage = 0.15,
         },
         transparent_background = false,
         show_end_of_buffer = false, -- show the '~' characters after the end of buffers
         term_colors = true,
         styles = {
-          comments = { "italic" },
-          functions = { "bold" },
-          keywords = { "italic" },
-          operators = { "bold" },
-          conditionals = { "bold" },
-          loops = { "bold" },
-          booleans = { "bold", "italic" },
+          comments = { 'italic' },
+          functions = { 'bold' },
+          keywords = { 'italic' },
+          operators = { 'bold' },
+          conditionals = { 'bold' },
+          loops = { 'bold' },
+          booleans = { 'bold', 'italic' },
           numbers = {},
           types = {},
           strings = {},
@@ -75,16 +82,16 @@ return {
           native_lsp = {
             enabled = true,
             virtual_text = {
-              errors = { "italic" },
-              hints = { "italic" },
-              warnings = { "italic" },
-              information = { "italic" },
+              errors = { 'italic' },
+              hints = { 'italic' },
+              warnings = { 'italic' },
+              information = { 'italic' },
             },
             underlines = {
-              errors = { "underline" },
-              hints = { "underline" },
-              warnings = { "underline" },
-              information = { "underline" },
+              errors = { 'underline' },
+              hints = { 'underline' },
+              warnings = { 'underline' },
+              information = { 'underline' },
             },
           },
           aerial = true,
@@ -139,7 +146,7 @@ return {
         color_overrides = {
           mocha = {
             -- CUSTOM:
-            base = "#050517",
+            base = '#050517',
 
             -- DEFAULT mocha for reference:
             -- rosewater = "#f5e0dc",
@@ -194,8 +201,8 @@ return {
               ---- For nvim-cmp and wilder.nvim
               PmenuSel = { bg = cp.green, fg = cp.base },
               CmpItemAbbr = { fg = cp.overlay2 },
-              CmpItemAbbrMatch = { fg = cp.blue, style = { "bold" } },
-              CmpDoc = { link = "NormalFloat" },
+              CmpItemAbbrMatch = { fg = cp.blue, style = { 'bold' } },
+              CmpDoc = { link = 'NormalFloat' },
 
               ---- For fidget
               --FidgetTask = { bg = cp.none, fg = cp.surface2 },
@@ -228,26 +235,26 @@ return {
               --GlanceListMatch = { fg = cp.lavender, style = { "bold" } },
               --GlanceFoldIcon = { fg = cp.green },
 
-              WhichKeyFloat = { bg = "#0f0f24" },
-              WhichKeyBorder = { bg = "#89b4fa" },
-              LazyNormal = { bg = "#050517" },
+              WhichKeyFloat = { bg = '#0f0f24' },
+              WhichKeyBorder = { bg = '#89b4fa' },
+              LazyNormal = { bg = '#050517' },
               --TroubleNormal = { bg = "" },
               --MasonNormal = { bg = "#050517" },
               NormalFloat = { bg = cp.base },
               FloatBorder = { bg = cp.base },
-              Normal = { bg = "#0e0e16" },
+              Normal = { bg = '#0e0e16' },
 
               -- For nvim-treehopper
               TSNodeKey = {
                 fg = cp.peach,
                 bg = transparent_background and cp.none or cp.base,
-                style = { "bold", "underline" },
+                style = { 'bold', 'underline' },
               },
 
               -- For treesitter
-              ["@keyword.return"] = { fg = cp.pink, style = clear },
-              ["@error.c"] = { fg = cp.none, style = clear },
-              ["@error.cpp"] = { fg = cp.none, style = clear },
+              ['@keyword.return'] = { fg = cp.pink, style = clear },
+              ['@error.c'] = { fg = cp.none, style = clear },
+              ['@error.cpp'] = { fg = cp.none, style = clear },
             }
           end,
         },
