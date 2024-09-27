@@ -221,6 +221,7 @@ return {
           },
         },
       }
+      servers.rust_analyzer = {}
       servers.tailwindcss = {}
       servers.html = {}
       servers.lua_ls = {
@@ -359,5 +360,9 @@ return {
         },
       }
     end,
+  },
+
+  {
+    'norcalli/nvim-colorizer.lua',
   },
 }

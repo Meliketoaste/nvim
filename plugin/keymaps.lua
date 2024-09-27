@@ -21,6 +21,10 @@ set('n', '<CR>', function()
   end
 end, { expr = true })
 
+vim.cmd [[
+vnoremap <C-r> "ay:let @a = substitute(@", '\s\+', '', 'g')<CR>:let @+ = @a<CR>
+]]
+
 ---- Normally these are not good mappings, but I have left/right on my thumb
 ---- cluster, so navigating tabs is quite easy this way.
 ----set("n", "<left>", "gT")

@@ -111,6 +111,7 @@
           nix-doc
           lua-language-server
           typescript-language-server
+          rust-analyzer
 
           nodePackages."@tailwindcss/language-server"
           nixd

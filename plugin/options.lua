@@ -77,3 +77,11 @@ vim.opt.termguicolors = true
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  local bufnr, winnr = orig_util_open_floating_preview(contents, syntax, opts, ...)
+  vim.api.nvim_set_option_value('signcolumn', 'no', { win = winnr })
+  vim.api.nvim_set_option_value('filetype', 'markdown', { buf = bufnr })
+  return bufnr, winnr
+end
