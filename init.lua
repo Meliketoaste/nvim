@@ -1,0 +1,21 @@
+require 'config.lazy'
+
+-- ocal groups = { 'GitSignsAddNr', 'GitSignsChangeNr', 'GitSignsDeleteNr' }
+-- e
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
