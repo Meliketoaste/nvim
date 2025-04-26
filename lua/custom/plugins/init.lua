@@ -1,13 +1,6 @@
 return {
-  { 'MikeWelsh801/eye-cancer', dependencies = { 'rebelot/kanagawa.nvim' } },
-  { 'alljokecake/naysayer-theme.nvim', as = 'naysayer' },
-  { 'tvst/neophile.nvim' },
-  { 'AmberLehmann/candyland.nvim', priority = 1000 },
-  { 'cideM/yui' },
-  { 'wuelnerdotexe/vim-enfocado' },
-
   {
-    'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+    -- 'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   },
 
   -- NOTE: Plugins can also be added by using a table,
@@ -32,6 +25,7 @@ return {
   -- options to `gitsigns.nvim`.
   --
   -- See `:help gitsigns` to understand what the configuration keys do
+  --
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --

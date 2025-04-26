@@ -1,16 +1,5 @@
+---@type LazySpec
 return {
-  {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-      },
-    },
-  },
 
   { -- Autoformat
     'stevearc/conform.nvim',
@@ -60,6 +49,7 @@ return {
       -- Mason must be loaded before its dependents so we need to set it up here.
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
       { 'williamboman/mason.nvim', opts = {} },
+
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
@@ -111,44 +101,43 @@ return {
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
-
-          -- Rename the variable under your cursor.
-          --  Most Language Servers support renaming across files, etc.
-          map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
-
-          -- Execute a code action, usually your cursor needs to be on top of an error
-          -- or a suggestion from your LSP for this to activate.
-          map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
-
-          -- Find references for the word under your cursor.
-          map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-
-          -- Jump to the implementation of the word under your cursor.
-          --  Useful when your language has ways of declaring types without an actual implementation.
-          map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-
+          --
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('gd', require('fzf-lua').lsp_definitions, '[G]oto [D]efinition')
 
-          -- WARN: This is not Goto Definition, this is Goto Declaration.
-          --  For example, in C this would take you to the header.
-          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          -- Find references for the word under your cursor.
+          map('gr', require('fzf-lua').lsp_references, '[G]oto [R]eferences')
 
-          -- Fuzzy find all the symbols in your current document.
-          --  Symbols are things like variables, functions, types, etc.
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
-
-          -- Fuzzy find all the symbols in your current workspace.
-          --  Similar to document symbols, except searches over your entire project.
-          map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
+          -- Jump to the implementation of the word under your cursor.
+          --  Useful when your language has ways of declaring types without an actual implementation.
+          map('gI', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
-          map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+          map('<leader>D', require('fzf-lua').lsp_typedefs, 'Type [D]efinition')
 
+          -- Fuzzy find all the symbols in your current document.
+          --  Symbols are things like variables, functions, types, etc.
+          map('<leader>ds', require('fzf-lua').lsp_document_symbols, '[D]ocument [S]ymbols')
+
+          -- Fuzzy find all the symbols in your current workspace.
+          --  Similar to document symbols, except searches over your entire project.
+          map('<leader>ws', require('fzf-lua').lsp_live_workspace_symbols, '[W]orkspace [S]ymbols')
+
+          -- Rename the variable under your cursor.
+          --  Most Language Servers support renaming across files, etc.
+          map('<leader>cr', vim.lsp.buf.rename, '[R]e[n]ame')
+
+          -- Execute a code action, usually your cursor needs to be on top of an error
+          -- or a suggestion from your LSP for this to activate.
+          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+
+          -- WARN: This is not Goto Definition, this is Goto Declaration.
+          --  For example, in C this would take you to the header.
+          map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method
@@ -262,6 +251,7 @@ return {
         --
 
         lua_ls = {
+
           -- cmd = { ... },
           -- filetypes = { ... },
           -- capabilities = {},
@@ -274,6 +264,53 @@ return {
               -- diagnostics = { disable = { 'missing-fields' } },
             },
           },
+        },
+        ols = {
+
+          name = 'odin',
+          cmd = { '/home/main/ols/ols' },
+          -- root_dir = function(path)
+          --   local lspUtil = require("lspconfig.util")
+          --   local root
+          --   root = lspUtil.root_pattern("ols.json", ".git")(path)
+          --   root = root
+          --     or (function(p)
+          --       return (vim.fs.dirname(p or vim.fn.expand("%:p"))) .. "/"
+          --     end)(path)
+          --   return root
+          -- end,
+          -- settings = {
+          --   odin = {
+          --     completion_support_md = true,
+          --     hover_support_md = true,
+          --     signature_offset_support = true,
+          --     collections = {},
+          --     -- running=true,
+          --     tabs = false,
+          --     newline_limit = 2,
+          --     verbose = true,
+          --     enable_format = false,
+          --     enable_hover = true,
+          --     enable_symantic_tokens = true,
+          --     enable_document_symbols = true,
+          --     enable_inlay_hints = true,
+          --     enable_procedure_context = true,
+          --     enable_snippets = true,
+          --     enable_references = true,
+          --     enable_rename = true,
+          --     enable_label_details = true,
+          --     enable_std_references = true,
+          --     enable_import_fixer = true,
+          --     disable_parser_errors = true,
+          --     thread_count = 0,
+          --     file_log = true,
+          --     -- odin_command = "",
+          --     checker_args = "",
+          --   },
+          -- },
+          filetypes = { 'odin' },
+          -- single_file_support = false,
+          -- autostart = true,
         },
       }
 

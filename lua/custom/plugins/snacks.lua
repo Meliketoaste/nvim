@@ -1,33 +1,40 @@
+---@type LazySpec
 return {
   'folke/snacks.nvim',
 
   priority = 1000,
-  lazy = false,
-  enabled = false,
+  enabled = true,
+
+  ---@module 'snacks.nvim'
+  ---@type snacks.Config
   opts = {
-    terminal = {
+
+    -- terminal = {
+    --   enabled = true,
+    -- },
+    --
+    -- dashboard = { enabled = true },
+    -- explorer = { enabled = true },
+    -- indent = { enabled = true },
+    -- input = { enabled = true },
+    -- picker = { enabled = true },
+    -- notifier = { enabled = true },
+    bigfile = {
+
       enabled = true,
     },
 
-    dashboard = { enabled = true },
-    explorer = { enabled = true },
-    indent = { enabled = true },
-    input = { enabled = true },
-    picker = { enabled = true },
-    notifier = { enabled = true },
-
-    quickfile = { enabled = true },
-    scope = { enabled = false },
-    scroll = { enabled = false },
-    statuscolumn = {
+    zen = {
       enabled = true,
-
-      left = { 'mark', 'sign' }, -- priority of signs on the left (high to low)
-      right = { 'fold', 'git' }, -- priority of signs on the right (high to low)
-      folds = {
-        open = false, -- show open fold icons
-        git_hl = false, -- use Git Signs hl for fold icons
-      },
+    },
+    -- quickfile = { enabled = true },
+    -- scope = { enabled = false },
+    -- scroll = { enabled = false },
+    statuscolumn = {
+      enabled = false,
+      left = { 'git', 'mark', 'sign' }, -- priority of signs on the left (high to low)
+      right = { enabled = false }, -- priority of signs on the left (high to low)
+      folds = { enabled = false },
       git = {
         -- patterns to match Git signs
         patterns = { 'GitSign', 'MiniDiffSign' },

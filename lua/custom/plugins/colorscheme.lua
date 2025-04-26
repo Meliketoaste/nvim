@@ -12,7 +12,7 @@ return {
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+    -- priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require('tokyonight').setup {
@@ -27,11 +27,11 @@ return {
       -- vim.cmd.colorscheme 'tokyonight-night'
     end,
   },
-
-  { 'MikeWelsh801/eye-cancer', dependencies = { 'rebelot/kanagawa.nvim' } },
-  { 'alljokecake/naysayer-theme.nvim', as = 'naysayer' },
-  { 'tvst/neophile.nvim' },
-  { 'AmberLehmann/candyland.nvim', priority = 1000 },
-  { 'cideM/yui' },
-  { 'wuelnerdotexe/vim-enfocado' },
+  --
+  -- { 'MikeWelsh801/eye-cancer', dependencies = { 'rebelot/kanagawa.nvim' } },
+  -- { 'alljokecake/naysayer-theme.nvim', as = 'naysayer' },
+  -- { 'tvst/neophile.nvim' },
+  -- { 'AmberLehmann/candyland.nvim', priority = 1000 },
+  -- { 'cideM/yui' },
+  -- { 'wuelnerdotexe/vim-enfocado' },
 }
