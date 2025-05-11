@@ -3,13 +3,8 @@ return {
   cmd = 'FzfLua',
   config = function()
     local fzf = require 'fzf-lua'
-    local config = fzf.config
-    local actions = fzf.actions
     fzf.setup {
-
       fzf_colors = true,
-
-      -- Custom LazyVim option to configure vim.ui.select
       winopts = {
         width = 0.8,
         height = 0.8,
@@ -22,57 +17,23 @@ return {
       files = {
         cwd_prompt = false,
         actions = {
-          ['alt-i'] = { actions.toggle_ignore },
-          ['alt-h'] = { actions.toggle_hidden },
+          ['alt-i'] = { fzf.actions.toggle_ignore },
+          ['alt-h'] = { fzf.actions.toggle_hidden },
         },
       },
       grep = {
         actions = {
-          ['alt-i'] = { actions.toggle_ignore },
-          ['alt-h'] = { actions.toggle_hidden },
+          ['alt-i'] = { fzf.actions.toggle_ignore },
+          ['alt-h'] = { fzf.actions.toggle_hidden },
         },
       },
       file_icon_padding = '',
     }
+    vim.keymap.set('n', '<leader>sd', fzf.diagnostics_document, { desc = '[S]earch [D]iagnostics Current-File' })
+    vim.keymap.set('n', '<leader>:', fzf.command_history, { desc = '[:] Command-History' })
+    vim.keymap.set('n', '<leader>sb', fzf.buffers, { desc = '[S]earch [B]uffers' })
+    vim.keymap.set('n', '<leader>sg', fzf.live_grep, { desc = '[S]earch [G]rep' })
+    vim.keymap.set('n', '<leader>sf', fzf.files, { desc = '[S]earch [F]iles' })
+    vim.keymap.set('n', '<leader>?', fzf.builtin, { desc = '[?] Built-in' })
   end,
-  keys = {
-    {
-      '<leader>sf',
-      function()
-        require('fzf-lua').files()
-      end,
-      { desc = '[S]earch [F]iles' },
-    },
-    {
-      '<leader>sg',
-      function()
-        require('fzf-lua').live_grep()
-      end,
-      { desc = '[S]earch [G]rep' },
-    },
-    {
-      '<leader>sb',
-      function()
-        require('fzf-lua').buffers()
-      end,
-      { desc = '[S]earch [B]uffers' },
-    },
-    {
-      '<leader>:',
-      function()
-        require('fzf-lua').command_history()
-      end,
-      { desc = '[:] Command-History' },
-    },
-
-    {
-      '<leader>sd',
-      function()
-        require('fzf-lua').diagnostics_document()
-      end,
-      { desc = '[S]earch [D]iagnostics Current-File' },
-    },
-
-    { '<leader>?', '<cmd>FzfLua builtin<cr>', desc = '[?] Built-in' },
-  },
 }

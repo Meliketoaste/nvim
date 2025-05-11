@@ -1,67 +1,41 @@
 local has_value = function(tab, val)
   for _, value in ipairs(tab) do
-    if value == val then
-      return true
-    end
+    return value == val and true
   end
-
   return false
 end
-local get_closing_for_line = function(line)
-  local i = -1
-  local clo = ''
 
-  -- Do not close if cursor position is not in the end of the line
+local get_closing_for_line = function(line)
   if vim.fn.col '.' ~= vim.fn.col '$' then
     return ''
   end
 
-  -- TODO replicate the auto semicolon insertion
-  -- https://github.com/rstacruz/vim-closer/blob/6007d9db0a35e983af246b667282606612076b07/autoload/closer.vim#L87-L115
+  local bracket_pairs = {
+    ['{'] = '}',
+    ['('] = ')',
+    ['['] = ']',
+  }
+  local stack = {}
 
-  while true do
-    i, _ = string.find(line, '[%(%)%{%}%[%]]', i + 1)
-    if i == nil then
-      break
-    end
-    local ch = string.sub(line, i, i)
-    local st = string.sub(clo, 1, 1)
+  for i = 1, #line do
+    local char = string.sub(line, i, i)
+    local closing_pair = bracket_pairs[char]
 
-    if ch == '{' then
-      clo = '}' .. clo
-    elseif ch == '}' then
-      if st ~= '}' then
-        return ''
+    if closing_pair then -- Opening bracket
+      table.insert(stack, closing_pair)
+    elseif string.find('}])', char) then -- Closing bracket
+      if #stack == 0 or table.remove(stack) ~= char then
+        return '' -- Mismatched or extra closing bracket
       end
-      clo = string.sub(clo, 2)
-    elseif ch == '(' then
-      clo = ')' .. clo
-    elseif ch == ')' then
-      if st ~= ')' then
-        return ''
-      end
-      clo = string.sub(clo, 2)
-    elseif ch == '[' then
-      clo = ']' .. clo
-    elseif ch == ']' then
-      if st ~= ']' then
-        return ''
-      end
-      clo = string.sub(clo, 2)
     end
   end
 
-  return clo
+  return table.concat(stack)
 end
 return {
-  -- {
-  --   'rstacruz/vim-closer',
-  --   -- 'kylechui/nvim-surround',
-  -- },
+  --  { 'rstacruz/vim-closer' },
   {
-
     'windwp/nvim-autopairs',
-
     event = 'InsertEnter',
 
     opts = {
@@ -73,28 +47,24 @@ return {
 
     config = function(_, opts)
       local autopairs = require 'nvim-autopairs'
-
       local Rule = require 'nvim-autopairs.rule'
+
       autopairs.setup(opts)
 
       autopairs.remove_rule '"'
       autopairs.remove_rule '`'
       autopairs.remove_rule "'"
 
-      -- Make every rule happend only on <CR>, similarly to vim-closer.
-      local pairs = {
-        '"""',
-        '```',
-      }
+      autopairs.remove_rule '('
+      autopairs.remove_rule '{'
+      autopairs.remove_rule '['
+
+      local pairs = { '"""', '```' }
       for _, rule in ipairs(autopairs.config.rules) do
         if has_value(pairs, rule.start_pair) then
           rule:end_wise()
         end
       end
-
-      autopairs.remove_rule '('
-      autopairs.remove_rule '{'
-      autopairs.remove_rule '['
 
       autopairs.add_rule(Rule('[%(%{%[]', '')
         :use_regex(true)
@@ -102,7 +72,6 @@ return {
           return get_closing_for_line(o.line)
         end)
         :end_wise(function(o)
-          -- Do not endwise if there is no closing
           return get_closing_for_line(o.line) ~= ''
         end))
     end,

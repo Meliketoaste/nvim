@@ -1,51 +1,36 @@
-local opt = vim.opt
+vim.o.inccommand = 'split'
+vim.o.smartcase = true
+vim.o.ignorecase = true
 
------ Interesting Options -----
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.splitbelow = true
+vim.o.splitright = true
 
--- You have to turn this one on :)
-opt.inccommand = 'split'
+vim.o.signcolumn = 'auto'
+vim.opt.shada = { "'10", '<0', 's10', 'h' }
 
--- Best search settings :)
-opt.smartcase = true
-opt.ignorecase = true
+vim.o.swapfile = false
 
------ Personal Preferences -----
-opt.number = true
-opt.relativenumber = true
+vim.opt.formatoptions:remove 'o'
 
-opt.splitbelow = true
-opt.splitright = true
+vim.o.wrap = true
+vim.o.linebreak = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.more = false
+vim.o.foldmethod = 'manual'
 
-opt.signcolumn = 'yes'
-opt.shada = { "'10", '<0', 's10', 'h' }
-
-opt.swapfile = false
-
--- Don't have `o` add a comment
-opt.formatoptions:remove 'o'
-
-opt.wrap = true
-opt.linebreak = true
-
-opt.tabstop = 4
-opt.shiftwidth = 4
-
-opt.more = false
-
-opt.foldmethod = 'manual'
-
-opt.title = true
-opt.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a (nvim)'
-
-opt.undofile = true
-
-opt.clipboard = 'unnamedplus'
+vim.o.title = true
+vim.o.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a (nvim)'
+vim.o.undofile = true
+vim.o.clipboard = 'unnamedplus'
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
-    vim.highlight.on_yank { timeout = 100 }
+    vim.hl.on_yank { timeout = 100 }
   end,
 })
 
@@ -66,10 +51,10 @@ end
 
 create_augroup('odin', function()
   if vim.fn.filereadable 'build.sh' == 1 and vim.fn.has 'unix' then
-    vim.api.nvim_buf_set_option(0, 'makeprg', 'sh ./build.sh')
+    vim.api.nvim_set_option_value('makeprg', 'sh ./build.sh', { buf = 0 })
   elseif vim.fn.filereadable 'build.bat' == 1 and not vim.fn.has 'unix' then
-    vim.api.nvim_buf_set_option(0, 'makeprg', './build.bat')
+    vim.api.nvim_set_option_value('makeprg', './build.bat', { buf = 0 })
   else
-    vim.api.nvim_buf_set_option(0, 'makeprg', 'odin build .')
+    vim.api.nvim_set_option_value('makeprg', 'odin build .', { buf = 0 })
   end
 end)
