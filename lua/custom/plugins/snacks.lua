@@ -9,13 +9,6 @@ return {
     ---@type snacks.Config
     opts = {
       statuscolumn = { enabled = false },
-      -- terminal = { enabled = true },
-      -- dashboard = { enabled = true },
-      -- explorer = { enabled = true },
-      -- indent = { enabled = true },
-      -- input = { enabled = true },
-      -- picker = { enabled = true },
-      -- notifier = { enabled = true },
 
       bigfile = { enabled = true },
 

@@ -6,7 +6,7 @@ vim.keymap.set('n', '<c-l>', '<c-w><c-l>')
 vim.keymap.set('n', '<c-h>', '<c-w><c-h>')
 
 vim.keymap.set('n', '<leader>x', '<cmd>.lua<CR>', { desc = 'Execute the current line' })
-vim.keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Execute the current file' })
+-- vim.keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Execute the current file' })
 
 -- Toggle hlsearch if it's on, otherwise just do "enter"
 vim.keymap.set('n', '<CR>', function()

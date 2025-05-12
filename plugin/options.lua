@@ -20,12 +20,12 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.more = false
 vim.o.foldmethod = 'manual'
-
-vim.o.title = true
-vim.o.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a (nvim)'
+--
+-- vim.o.title = true
+-- vim.o.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a (nvim)'
 vim.o.undofile = true
 vim.o.clipboard = 'unnamedplus'
-
+--
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),

@@ -1,29 +1,5 @@
 return {
   {
-    'NeogitOrg/neogit',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'sindrets/diffview.nvim',
-    },
-    keys = {
-      {
-        '<leader>N',
-        function()
-          require('neogit').open()
-        end,
-      },
-    },
-    config = function()
-      local neogit = require 'neogit'
-      vim.keymap.set('n', '<leader>N', neogit.open)
-      -- vim.keymap.set('n', '<leader>cc', function()
-      --   neogit.open { 'commit' }
-      -- end, { desc = 'Git Commit' })
-    end,
-  },
-
-  {
-
     'lewis6991/gitsigns.nvim',
     opts = {
       signcolumn = false,
