@@ -14,7 +14,11 @@ return {
       },
     },
     config = function()
-      vim.keymap.set('n', '<leader>N', require('neogit').open)
+      local neogit = require 'neogit'
+      vim.keymap.set('n', '<leader>N', neogit.open)
+      -- vim.keymap.set('n', '<leader>cc', function()
+      --   neogit.open { 'commit' }
+      -- end, { desc = 'Git Commit' })
     end,
   },
 

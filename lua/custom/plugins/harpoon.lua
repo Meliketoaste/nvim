@@ -14,12 +14,9 @@ return {
     config = function()
       local harpoon = require 'harpoon'
 
-
-
-
-     -- stylua: ignore start
+      -- stylua: ignore start
       vim.keymap.set('n', '<leader>H', function() harpoon:list():add() end, { desc = 'Harpoon File' })
-     vim.keymap.set('n', '<leader>h', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = 'Harpoon File' })
+      vim.keymap.set('n', '<leader>h', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = 'Harpoon File' })
 
       for i = 1, 5  do
 
