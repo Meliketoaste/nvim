@@ -5,6 +5,9 @@ return {
     local fzf = require 'fzf-lua'
     fzf.setup {
       fzf_colors = true,
+      defaults = {
+        formatter = 'path.dirname_first',
+      },
       winopts = {
         width = 0.8,
         height = 0.8,
