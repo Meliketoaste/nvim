@@ -5,6 +5,9 @@ return {
     local fzf = require 'fzf-lua'
     fzf.setup {
       fzf_colors = true,
+      fzf_opts = {
+        ['--no-scrollbar'] = true,
+      },
       defaults = {
         formatter = 'path.dirname_first',
       },
