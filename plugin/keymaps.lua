@@ -7,6 +7,19 @@ vim.keymap.set('n', '<c-h>', '<c-w><c-h>')
 
 vim.keymap.set('n', '<leader>x', '<cmd>.lua<CR>', { desc = 'Execute the current line' })
 -- vim.keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Execute the current file' })
+--
+vim.api.nvim_del_keymap('n', 'gra') -- vim.lsp.buf...
+-- vim.api.nvim_del_keymap('x', 'gra') -- vim.lsp.buf...
+vim.api.nvim_del_keymap('n', 'gri') -- vim.lsp.buf...
+vim.api.nvim_del_keymap('n', 'grn') -- vim.lsp.buf...
+vim.api.nvim_del_keymap('n', 'grr') -- vim.lsp.buf...
+-- vim.api.nvim_del_keymap('n', 'gO') -- vim.lsp.buf...
+
+-- vim.api.nvim_del_keymap('n', ']d') -- vim.lsp.buf...
+-- vim.api.nvim_del_keymap('n', ']D') -- vim.lsp.buf...
+
+-- vim.api.nvim_del_keymap('n', 'gx') -- open filepath under cursor
+-- vim.api.nvim_del_keymap('x', 'gx') -- open filepath under cursor
 
 -- Toggle hlsearch if it's on, otherwise just do "enter"
 vim.keymap.set('n', '<CR>', function()
@@ -86,3 +99,28 @@ vim.api.nvim_create_user_command('MakeAsync', function()
 end, { desc = 'FUCK YOU' })
 
 vim.keymap.set('n', '<leader>r', '<Cmd>MakeAsync<CR>', { desc = 'Run program' })
+-- "https://dummyjson.com/products"
+vim.api.nvim_create_user_command('QuicktypeFromClipboard', function() -- awesome for getting types from an json endpoint.
+  local url = vim.fn.getreg('+'):gsub('%s+', '')
+  if url == '' then
+    print '❌ Clipboard is empty or not a valid URL'
+    return
+  end
+
+  local name = ((url:match '^.+/(.+)$' or 'Type'):gsub('[^%w]', '')):gsub('^%l', string.upper)
+  local out =
+    vim.fn.system(string.format('curl -s "%s" | bunx quicktype --lang typescript --just-types --prefer-types --prefer-unions --top-level %s', url, name))
+  if vim.v.shell_error ~= 0 then
+    print '❌ Failed to fetch or convert JSON'
+    return
+  end
+
+  local f = io.open(name .. '.ts', 'w')
+  if f then
+    f:write(out)
+    f:close()
+    vim.cmd('edit ' .. name .. '.ts')
+  else
+    print('❌ Failed to write file: ' .. name .. '.ts')
+  end
+end, {})

@@ -8,7 +8,26 @@ return {
 
     version = '1.*',
     dependencies = {
-      { 'L3MON4D3/LuaSnip', version = 'v2.*', dependencies = { 'rafamadriz/friendly-snippets' } },
+      {
+        'L3MON4D3/LuaSnip',
+        version = 'v2.*',
+        dependencies = {
+          {
+            'rafamadriz/friendly-snippets',
+            -- config = function()
+            --   local ls = require 'luasnip'
+            --   local s = ls.snippet
+            --   local i = ls.insert_node
+            --
+            --   local fmt = require('luasnip.extras.fmt').fmt
+            --
+            --   ls.add_snippets('all', {
+            --     s('rererere', fmt('let {} = [%sedlex.regexp? {}]{}', { i(1), i(2), i(0) })),
+            --   })
+            -- end,
+          },
+        },
+      },
     },
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config

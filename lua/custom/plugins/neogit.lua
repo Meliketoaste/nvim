@@ -31,6 +31,7 @@ return {
       vim.keymap.set('n', '<leader>gc', function()
         require('neogit.buffers.commit_view').new('HEAD'):open()
       end)
+      vim.keymap.set('n', '<leader>gl', '<CMD>Neogit log<CR>')
     end,
   },
 }
