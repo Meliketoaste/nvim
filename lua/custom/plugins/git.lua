@@ -43,12 +43,8 @@ return {
         vim.keymap.set('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = '[T]oggle git show [D]eleted' })
         Snacks.toggle({
           name = 'Git Signs',
-          get = function()
-            return require('gitsigns.config').config.signcolumn
-          end,
-          set = function(state)
-            require('gitsigns').toggle_signs(state)
-          end,
+          get = function() return require('gitsigns.config').config.signcolumn end,
+          set = function(state) require('gitsigns').toggle_signs(state) end,
         }):map '<leader>uG'
       end,
     },

@@ -1,3 +1,70 @@
+-- function snacks_symbols() -- fzf-lua is okay i guess.
+--   local buf = vim.api.nvim_get_current_buf()
+--   local winnr = vim.api.nvim_get_current_win()
+--   local params = vim.lsp.util.make_position_params(winnr)
+--
+--   vim.lsp.buf_request(buf, 'textDocument/documentSymbol', params, function(err, result, ctx)
+--     if err then
+--       vim.api.nvim_err_writeln('Error getting document symbols: ' .. err.message)
+--       return
+--     end
+--
+--     if not result or vim.tbl_isempty(result) then
+--       return
+--     end
+--
+--     local items = {}
+--     local prefix = ' '
+--
+--     do
+--       local function visit(sym, prev)
+--         local item = {}
+--         local kind = vim.lsp.protocol.SymbolKind[sym.kind] or 'Unknown'
+--         local filename = sym.location and vim.uri_to_fname(sym.location.uri) or vim.api.nvim_buf_get_name(buf)
+--         local range = sym.location and sym.location.range or sym.selectionRange
+--
+--         item = {
+--           filename = filename,
+--           file = filename,
+--           lnum = range.start.line + 1,
+--           col = range.start.character + 1,
+--           kind = kind,
+--           text = prev .. '[' .. kind .. '] ' .. sym.name,
+--
+--           loc = {
+--             uri = vim.uri_from_fname(filename),
+--             range = range,
+--           },
+--         }
+--
+--         items[#items + 1] = item
+--
+--         if sym.children then
+--           for i = 1, #sym.children do
+--             visit(sym.children[i], prev .. prefix)
+--           end
+--         end
+--       end
+--
+--       for i = 1, #result do
+--         visit(result[i], '')
+--       end
+--     end
+--
+--     Snacks.picker {
+--       items = items,
+--       -- matcher = { history_bonus = true, file_pos = true },
+--       sort = { fields = { 'lnum' } },
+--       format = function(item)
+--         return {
+--           { item.text, 'SnacksPickerFile' },
+--         }
+--       end,
+--       title = 'Document Symbols',
+--     }
+--   end)
+-- end
+
 local signs = {
   [vim.diagnostic.severity.ERROR] = '󰅚 ',
   [vim.diagnostic.severity.WARN] = '󰀪 ',
@@ -14,9 +81,7 @@ return {
     keys = {
       {
         '<leader>F',
-        function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
-        end,
+        function() require('conform').format { async = true, lsp_format = 'fallback' } end,
         mode = '',
         desc = '[F]ormat buffer',
       },
@@ -34,7 +99,7 @@ return {
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -50,11 +115,24 @@ return {
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
+          --           vim.keymap.set('n', 'gd', require('fzf-lua').lsp_definitions, { desc = '[G]oto [D]efinition' })
+          --           vim.keymap.set('n', 'gr', require('fzf-lua').lsp_references, { desc = '[G]oto [R]eferences' })
+          --           vim.keymap.set('n', 'gI', require('fzf-lua').lsp_implementations, { desc = '[G]oto [I]mplementation' })
+          --           vim.keymap.set('n', '<leader>D', require('fzf-lua').lsp_typedefs, { desc = 'Type [D]efinition' })
+          --           vim.keymap.set('n', '<leader>ds', snacks_symbols, { desc = '[D]ocument [S]ymbols' })
+
+          --
+          --           vim.keymap.set('n', '<leader>ws', require('fzf-lua').lsp_live_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
+          --           vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
+          --           vim.keymap.set({ 'n', 'x' }, '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
+          --           vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
+          --
           vim.keymap.set('n', 'gd', require('fzf-lua').lsp_definitions, { desc = '[G]oto [D]efinition' })
           vim.keymap.set('n', 'gr', require('fzf-lua').lsp_references, { desc = '[G]oto [R]eferences' })
           vim.keymap.set('n', 'gI', require('fzf-lua').lsp_implementations, { desc = '[G]oto [I]mplementation' })
           vim.keymap.set('n', '<leader>D', require('fzf-lua').lsp_typedefs, { desc = 'Type [D]efinition' })
           vim.keymap.set('n', '<leader>ds', require('fzf-lua').lsp_document_symbols, { desc = '[D]ocument [S]ymbols' })
+
           vim.keymap.set('n', '<leader>ws', require('fzf-lua').lsp_live_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
           vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
           vim.keymap.set({ 'n', 'x' }, '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
@@ -87,9 +165,12 @@ return {
           end
 
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            vim.keymap.set('n', '<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, { desc = '[T]oggle Inlay [H]ints' })
+            vim.keymap.set(
+              'n',
+              '<leader>th',
+              function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end,
+              { desc = '[T]oggle Inlay [H]ints' }
+            )
           end
         end,
       })
@@ -102,9 +183,7 @@ return {
           spacing = 1,
           prefix = '',
           suffix = ' ',
-          format = function(diagnostic)
-            return signs[diagnostic.severity] .. ' ' .. diagnostic.message
-          end,
+          format = function(diagnostic) return signs[diagnostic.severity] .. ' ' .. diagnostic.message end,
         },
       }
 
@@ -114,7 +193,18 @@ return {
         -- pyright = {},
         -- rust_analyzer = {},
         -- ts_ls = {},
-
+        astro = {},
+        mdx_analyzer = {
+          init_options = { typescript = { enabled = true } },
+          root_markers = {
+            'package.json',
+          },
+          settings = {
+            -- Search for "experimentalLanguageServer" in the changelog:
+            -- https://github.com/mdx-js/mdx-analyzer/blob/main/packages/vscode-mdx/CHANGELOG.md
+            mdx = { server = { enable = true } },
+          },
+        },
         lua_ls = {
           cmd = { 'lua-language-server' },
           filetypes = { 'lua' },

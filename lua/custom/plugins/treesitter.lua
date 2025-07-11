@@ -1,5 +1,10 @@
 return {
   {
+    'davidmh/mdx.nvim',
+    config = true,
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  },
+  {
     'windwp/nvim-ts-autotag',
     config = function()
       require('nvim-ts-autotag').setup {
@@ -66,6 +71,11 @@ return {
 
         'python',
 
+        'latex',
+        'norg',
+        'scss',
+        'typst',
+        'vue',
         'jsdoc',
         'javascript',
         'typescript',
@@ -186,6 +196,8 @@ return {
       vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T_expr, { expr = true })
 
       ts.setup(opts)
+      --
+      -- vim.treesitter.language.register('markdown', 'mdx')
     end,
   },
 }

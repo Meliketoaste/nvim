@@ -1,10 +1,10 @@
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.shortmess:append 'c'
 return {
-
   { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
+    enabled = true,
 
     version = '1.*',
     dependencies = {
@@ -37,6 +37,7 @@ return {
 
       completion = {
         documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        -- keyword = { range = 'full' },
       },
 
       sources = {

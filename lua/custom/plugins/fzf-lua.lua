@@ -1,45 +1,261 @@
 return {
-  'ibhagwan/fzf-lua',
-  cmd = 'FzfLua',
-  config = function()
-    local fzf = require 'fzf-lua'
-    fzf.setup {
-      fzf_colors = true,
-      fzf_opts = {
-        ['--no-scrollbar'] = true,
-      },
-      defaults = {
-        formatter = 'path.dirname_first',
-      },
-      winopts = {
-        width = 0.8,
-        height = 0.8,
-        row = 0.5,
-        col = 0.5,
-        preview = {
-          scrollchars = { '|', '' },
+  {
+    'bassamsdata/namu.nvim',
+    opts = {
+      -- Enable symbols navigator which is the default
+      namu_symbols = {
+        enable = true,
+        ---@type NamuConfig
+        options = {
+          AllowKinds = {
+            default = {
+              'Function',
+              'Method',
+              'Class',
+              'Module',
+              'Property',
+              'Variable',
+              -- "Constant",
+              -- "Enum",
+              -- "Interface",
+              -- "Field",
+              -- "Struct",
+            },
+            go = {
+              'Function',
+              'Method',
+              'Struct', -- For struct definitions
+              'Field', -- For struct fields
+              'Interface',
+              'Constant',
+              -- "Variable",
+              'Property',
+              -- "TypeParameter", -- For type parameters if using generics
+            },
+            lua = { 'Function', 'Method', 'Table', 'Module', 'Array', 'Object' },
+            python = { 'Function', 'Class', 'Method' },
+            -- Filetype specific
+            yaml = { 'Object', 'Array' },
+            json = { 'Module' },
+            toml = { 'Object' },
+            markdown = { 'String' },
+          },
+          BlockList = {
+            default = {},
+            -- Filetype-specific
+            lua = {
+              '^vim%.', -- anonymous functions passed to nvim api
+              '%.%.%. :', -- vim.iter functions
+              ':gsub', -- lua string.gsub
+              '^callback$', -- nvim autocmds
+              '^filter$',
+              '^map$', -- nvim keymaps
+            },
+            -- another example:
+            -- python = { "^__" }, -- ignore __init__ functions
+          },
+          display = {
+            mode = 'icon', -- "icon" or "raw"
+            padding = 2,
+          },
+          -- This is a preset that let's set window without really get into the hassle of tuning window options
+          -- top10 meaning top 10% of the window
+          row_position = 'top10', -- options: "center"|"top10"|"top10_right"|"center_right"|"bottom",
+          preview = {
+            highlight_on_move = true, -- Whether to highlight symbols as you move through them
+            -- still needs implmenting, keep it always now
+            highlight_mode = 'always', -- "always" | "select" (only highlight when selecting)
+          },
+          window = {
+            auto_size = true,
+            min_height = 1,
+            min_width = 20,
+            max_width = 120,
+            max_height = 30,
+            padding = 2,
+            border = 'rounded',
+            title_pos = 'left',
+            show_footer = true,
+            footer_pos = 'right',
+            relative = 'editor',
+            style = 'minimal',
+            width_ratio = 0.6,
+            height_ratio = 0.6,
+            title_prefix = '󱠦 ',
+          },
+          debug = false,
+          focus_current_symbol = true,
+          auto_select = false,
+          initially_hidden = false,
+          multiselect = {
+            enabled = true,
+            indicator = '✓', -- or "✓"●
+            keymaps = {
+              toggle = '<Tab>',
+              untoggle = '<S-Tab>',
+              select_all = '<C-a>',
+              clear_all = '<C-l>',
+            },
+            max_items = nil, -- No limit by default
+          },
+          actions = {
+            close_on_yank = false, -- Whether to close picker after yanking
+            close_on_delete = true, -- Whether to close picker after deleting
+          },
+          movement = { -- Support multiple keys
+            next = { '<C-n>', '<DOWN>' },
+            previous = { '<C-p>', '<UP>' },
+            close = { '<ESC>' }, -- "<C-c>" can be added as well
+            select = { '<CR>' },
+            delete_word = {}, -- it can assign "<C-w>"
+            clear_line = {}, -- it can be "<C-u>"
+          },
+          custom_keymaps = {
+            yank = {
+              keys = { '<C-y>' },
+              desc = 'Yank symbol text',
+            },
+            delete = {
+              keys = { '<C-d>' },
+              desc = 'Delete symbol text',
+            },
+            vertical_split = {
+              keys = { '<C-v>' },
+              desc = 'Open in vertical split',
+            },
+            horizontal_split = {
+              keys = { '<C-h>' },
+              desc = 'Open in horizontal split',
+            },
+            codecompanion = {
+              keys = '<C-o>',
+              desc = 'Add symbol to CodeCompanion',
+            },
+            avante = {
+              keys = '<C-t>',
+              desc = 'Add symbol to Avante',
+            },
+          },
+          icon = '󱠦', -- 󱠦 -  -  -- 󰚟
+          kindText = {
+            Function = 'function',
+            Class = 'class',
+            Module = 'module',
+            Constructor = 'constructor',
+            Interface = 'interface',
+            Property = 'property',
+            Field = 'field',
+            Enum = 'enum',
+            Constant = 'constant',
+            Variable = 'variable',
+          },
+          kindIcons = {
+            File = '󰈙',
+            Module = '󰏗',
+            Namespace = '󰌗',
+            Package = '󰏖',
+            Class = '󰌗',
+            Method = '󰆧',
+            Property = '󰜢',
+            Field = '󰜢',
+            Constructor = '󰆧',
+            Enum = '󰒻',
+            Interface = '󰕘',
+            Function = '󰊕',
+            Variable = '󰀫',
+            Constant = '󰏿',
+            String = '󰀬',
+            Number = '󰎠',
+            Boolean = '󰨙',
+            Array = '󰅪',
+            Object = '󰅩',
+            Key = '󰌋',
+            Null = '󰟢',
+            EnumMember = '󰒻',
+            Struct = '󰌗',
+            Event = '󰉁',
+            Operator = '󰆕',
+            TypeParameter = '󰊄',
+          },
+          highlight = 'NamuPreview',
+          highlights = {
+            parent = 'NamuParent',
+            nested = 'NamuNested',
+            style = 'NamuStyle',
+          },
+          kinds = {
+            prefix_kind_colors = true,
+            enable_highlights = true,
+            highlights = {
+              PrefixSymbol = 'NamuPrefixSymbol',
+              Function = 'NamuSymbolFunction',
+              Method = 'NamuSymbolMethod',
+              Class = 'NamuSymbolClass',
+              Interface = 'NamuSymbolInterface',
+              Variable = 'NamuSymbolVariable',
+              Constant = 'NamuSymbolConstant',
+              Property = 'NamuSymbolProperty',
+              Field = 'NamuSymbolField',
+              Enum = 'NamuSymbolEnum',
+              Module = 'NamuSymbolModule',
+            },
+          },
         },
       },
-      files = {
-        cwd_prompt = false,
-        actions = {
-          ['alt-i'] = { fzf.actions.toggle_ignore },
-          ['alt-h'] = { fzf.actions.toggle_hidden },
+      ui_select = { enable = false }, -- vim.ui.select() wrapper
+    },
+  },
+  {
+
+    'ibhagwan/fzf-lua',
+    cmd = 'FzfLua',
+    config = function()
+      local fzf = require 'fzf-lua'
+      fzf.setup {
+        fzf_colors = true,
+        fzf_opts = {
+          ['--no-scrollbar'] = true,
         },
-      },
-      grep = {
-        actions = {
-          ['alt-i'] = { fzf.actions.toggle_ignore },
-          ['alt-h'] = { fzf.actions.toggle_hidden },
+        defaults = {
+          formatter = 'path.dirname_first',
         },
-      },
-      file_icon_padding = '',
-    }
-    vim.keymap.set('n', '<leader>sd', fzf.diagnostics_document, { desc = '[S]earch [D]iagnostics Current-File' })
-    vim.keymap.set('n', '<leader>:', fzf.command_history, { desc = '[:] Command-History' })
-    vim.keymap.set('n', '<leader>sb', fzf.buffers, { desc = '[S]earch [B]uffers' })
-    vim.keymap.set('n', '<leader>sg', fzf.live_grep, { desc = '[S]earch [G]rep' })
-    vim.keymap.set('n', '<leader>sf', fzf.files, { desc = '[S]earch [F]iles' })
-    vim.keymap.set('n', '<leader>?', fzf.builtin, { desc = '[?] Built-in' })
-  end,
+        keymap = {
+
+          fzf = {
+
+            ['ctrl-q'] = 'select-all+accept',
+          },
+        },
+        winopts = {
+          width = 0.8,
+          height = 0.8,
+          row = 0.5,
+          col = 0.5,
+          preview = {
+            scrollchars = { '|', '' },
+          },
+        },
+        files = {
+          cwd_prompt = false,
+          actions = {
+            ['alt-i'] = { fzf.actions.toggle_ignore },
+            ['alt-h'] = { fzf.actions.toggle_hidden },
+          },
+        },
+        grep = {
+          actions = {
+            ['alt-i'] = { fzf.actions.toggle_ignore },
+            ['alt-h'] = { fzf.actions.toggle_hidden },
+          },
+        },
+        file_icon_padding = '',
+      }
+      vim.keymap.set('n', '<leader>sd', fzf.diagnostics_document, { desc = '[S]earch [D]iagnostics Current-File' })
+      -- vim.keymap.set('n', '<leader>:', fzf.command_history, { desc = '[:] Command-History' })
+      -- vim.keymap.set('n', '<leader>sb', fzf.buffers, { desc = '[S]earch [B]uffers' })
+      -- vim.keymap.set('n', '<leader>sg', fzf.live_grep, { desc = '[S]earch [G]rep' })
+      -- vim.keymap.set('n', '<leader>sf', fzf.files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>?', fzf.builtin, { desc = '[?] Built-in' })
+    end,
+  },
 }

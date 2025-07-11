@@ -1,6 +1,13 @@
 return {
+  -- {
+  --   'norcalli/nvim-colorizer.lua',
+  --   config = function()
+  --     require('colorizer').setup()
+  --   end,
+  -- },
   {
     'Meliketoaste/cold.nvim',
+
     config = function()
       vim.cmd.colorscheme 'cold'
       local add = Snacks.util.blend('#11111a', '#78b957', 0.90)
@@ -51,4 +58,15 @@ return {
       -- vim.cmd.colorscheme 'tokyonight-night'
     end,
   },
+  -- example lazy.nvim install setup
+  -- {
+  --   'slugbyte/lackluster.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   init = function()
+  --     vim.cmd.colorscheme 'lackluster'
+  --     -- vim.cmd.colorscheme("lackluster-hack") -- my favorite
+  --     -- vim.cmd.colorscheme("lackluster-mint")
+  --   end,
+  -- },
 }

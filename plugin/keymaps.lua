@@ -5,6 +5,9 @@ vim.keymap.set('n', '<c-k>', '<c-w><c-k>')
 vim.keymap.set('n', '<c-l>', '<c-w><c-l>')
 vim.keymap.set('n', '<c-h>', '<c-w><c-h>')
 
+-- vim.keymap.set('n', '<leader>F', function()
+--   vim.lsp.buf.format()
+-- end)
 vim.keymap.set('n', '<leader>x', '<cmd>.lua<CR>', { desc = 'Execute the current line' })
 -- vim.keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Execute the current file' })
 --
@@ -60,9 +63,7 @@ Snacks.toggle
   .new({
     id = 'diagnostics_lines',
     name = 'Diagnostics Lines',
-    get = function()
-      return not not vim.diagnostic.config().virtual_lines
-    end,
+    get = function() return not not vim.diagnostic.config().virtual_lines end,
     set = function(state)
       if state then
         vim.g.virtual_text_opt = vim.diagnostic.config().virtual_text
